@@ -1,0 +1,18 @@
+.base, .resource {
+	cursor: context-menu;
+}
+.w {
+	background-color: blue;
+}
+.l {
+	background-color: green;
+}
+.m {
+	background-color: grey;
+}
+.base {
+	background-color: red;
+}
+.base.ownbase {
+	background-color: yellow;
+}
