@@ -1,0 +1,3 @@
+[submodule "credis"]
+	path = credis
+	url = https://github.com/stevenharradine/credis.git
