@@ -6,20 +6,12 @@
 	<body>
 		<pre>
 <?php
-	// read in map file
-	$myfile = fopen("test-world.map", "r") or die("Unable to open file!");
-	$raw_map = fread($myfile,filesize("test-world.map"));
-	fclose($myfile);
+	require 'Credis/Client.php';
+	$redis = new Credis_Client('localhost');
 
-	// read in bases overlay
-	$myfile = fopen("test-world.bases", "r") or die("Unable to open file!");
-	$raw_bases = json_decode (fread($myfile,filesize("test-world.bases")), true);
-	fclose($myfile);
-
-	// read in resources overlay
-	$myfile = fopen("test-world.resources", "r") or die("Unable to open file!");
-	$raw_resources = json_decode (fread($myfile,filesize("test-world.resources")), true);
-	fclose($myfile);
+	$raw_map = $redis->get('world.map');
+	$raw_bases = json_decode ($redis->get('world.bases'));
+	$raw_resources = json_decode ($redis->get('world.resources'));
 
 	// render map to array (maybe should be json)
 	$raw_map_exploded = explode ("\n", $raw_map);
@@ -62,9 +54,7 @@
 		} while ($raw_bases[$proposed_x][$proposed_y] != $user);
 
 		// save new base to file
-		$fp = fopen('test-world.bases', 'w');
-		fwrite($fp, json_encode($raw_bases));
-		fclose($fp);
+		$redis->set('world.bases', json_encode($raw_bases));
 	}
 
 	if (isset ($user)) {
