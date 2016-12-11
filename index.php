@@ -6,7 +6,7 @@
 	<body>
 		<pre>
 <?php
-	require 'Credis/Client.php';
+	require 'credis/Client.php';
 	$redis = new Credis_Client('localhost');
 
 	$raw_map = $redis->get('world.map');
