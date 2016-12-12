@@ -10,7 +10,7 @@
 	$redis = new Credis_Client('localhost');
 
 	$raw_map = $redis->get('world.map');
-	$raw_bases = json_decode ($redis->get('world.bases'));
+	$raw_bases = json_decode ($redis->get('world.bases'), yes);
 	$raw_resources = json_decode ($redis->get('world.resources'));
 
 	// render map to array (maybe should be json)
@@ -42,25 +42,10 @@
 		}
 	}
 
-	// if user is new and has no base give them one
-	if (!$own_base_exists) {
-		do {
-			$proposed_x = rand(0, $max_x - 1);
-			$proposed_y = rand(0, $max_y - 1);
-
-			if ($raw_bases[$proposed_x][$proposed_y] == "") {
-				$raw_bases[$proposed_x][$proposed_y] = $user;
-			}
-		} while ($raw_bases[$proposed_x][$proposed_y] != $user);
-
-		// save new base to file
-		$redis->set('world.bases', json_encode($raw_bases));
-	}
-
 	if (isset ($user)) {
 		echo "User: $user";
 	} else {
-		echo "Watching mode";
+		echo "<script>location.href='./signup.php'</script>";
 	}
 	echo "</br>";
 
