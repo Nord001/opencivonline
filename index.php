@@ -9,9 +9,9 @@
 	require 'credis/Client.php';
 	$redis = new Credis_Client('localhost');
 
-	$raw_map = $redis->get('world.map');
-	$raw_bases = json_decode ($redis->get('world.bases'), yes);
-	$raw_resources = json_decode ($redis->get('world.resources'));
+	$raw_map = $redis->get('world:map');
+	$raw_bases = json_decode ($redis->get('world:bases'), yes);
+	$raw_resources = json_decode ($redis->get('world:resources'));
 
 	// render map to array (maybe should be json)
 	$raw_map_exploded = explode ("\n", $raw_map);

@@ -4,8 +4,8 @@
 
 	$user = $_REQUEST["user"];
 
-	$raw_map = $redis->get('world.map');
-	$raw_bases = json_decode ($redis->get('world.bases'), yes);
+	$raw_map = $redis->get('world:map');
+	$raw_bases = json_decode ($redis->get('world:bases'), yes);
 
 	// render map to array (maybe should be json)
 	$raw_map_exploded = explode ("\n", $raw_map);
@@ -19,8 +19,8 @@
 	</head>
 	<body>
 <?php
-	if (json_decode($redis->get("world.bases.$user")) == NULL) {
-		$redis->set("world.bases.$user", "{\"buildings\":[],\"build-queue\":\"\"}");
+	if (json_decode($redis->get("world:bases:$user")) == NULL) {
+		$redis->set("world:bases:$user", "{\"buildings\":[],\"build-queue\":\"\"}");
 
 		do {
 			$proposed_x = rand(0, $max_x - 1);
@@ -33,7 +33,7 @@
 
 
 		// save new base to file
-		$redis->set('world.bases', json_encode($raw_bases));
+		$redis->set('world:bases', json_encode($raw_bases));
 
 		echo "new user $user has been set up";
 	} else {

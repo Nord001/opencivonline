@@ -13,12 +13,12 @@
 	$redis = new Credis_Client('localhost');
 
 	// read in map and associated data
-	$raw_map = $redis->get('world.map');
-	$raw_bases = json_decode ($redis->get('world.bases'), yes);
-	$raw_resources = json_decode ($redis->get('world.resources'));
+	$raw_map = $redis->get('world:map');
+	$raw_bases = json_decode ($redis->get('world:bases'), yes);
+	$raw_resources = json_decode ($redis->get('world:resources'));
 	$raw_buildings_available = $redis->keys('buildings:*');
-	$json_base_data = json_decode ($redis->get("world.bases.$user"));
-	$base_data = json_decode ($redis->get("world.bases.$user"), yes);
+	$json_base_data = json_decode ($redis->get("world:bases:$user"));
+	$base_data = json_decode ($redis->get("world:bases:$user"), yes);
 
 	// render map to array (maybe should be json)
 	$raw_map_exploded = explode ("\n", $raw_map);
@@ -68,7 +68,7 @@
 <?php
 			for ($i = 0; $i < $number_of_buildings; $i++) {
 				$building_name = $json_base_data->buildings[$i];
-				echo "<li>$building_name</li>";
+				echo "<li><a href='building.php?user=$user&amp;building=$building_name'>$building_name</a></li>";
 			}
 ?>
 		</ul>

@@ -9,8 +9,8 @@
 	require 'credis/Client.php';
 	$redis = new Credis_Client('localhost');
 
-	$raw_bases = $redis->get("world.bases");
-	$base_data = json_decode ($redis->get("world.bases.$user"), true);
+	$raw_bases = $redis->get("world:bases");
+	$base_data = json_decode ($redis->get("world:bases:$user"), true);
 
 	$build_queue_is_empty = $base_data["build-queue"] == "";
 	$already_have_building = in_array ($resource, $base_data["buildings"]);
@@ -18,7 +18,7 @@
 	if ($build_queue_is_empty) {
 		if (!$already_have_building) {
 			$base_data["build-queue"] = "$resource|".time();
-			$redis->set("world.bases.$user", json_encode ($base_data));
+			$redis->set("world:bases:$user", json_encode ($base_data));
 		}
 	}
 ?>

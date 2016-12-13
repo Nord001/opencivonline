@@ -4,12 +4,12 @@
 
 
 	for (;;) {
-		$raw_bases = $redis->keys('world.bases.*');
+		$raw_bases = $redis->keys('world:bases:*');
 		
 		foreach ($raw_bases as $base) {
-			$base_name = str_replace ("world.bases.", "", $base);
+			$base_name = str_replace ("world:bases:", "", $base);
 
-			$base_data = json_decode($redis->get ("world.bases.$base_name"), 'yes');
+			$base_data = json_decode($redis->get ("world:bases:$base_name"), 'yes');
 
 			if ($base_data["build-queue"] != "") {
 				$exploded_build_queue = explode ('|', $base_data["build-queue"]);
@@ -24,7 +24,7 @@
 					array_push ($base_data["buildings"], $resource);
 
 					$base_data["build-queue"] = "";
-					$redis->set("world.bases.$base_name", json_encode($base_data));
+					$redis->set("world:bases:$base_name", json_encode($base_data));
 				}
 			}
 		}
