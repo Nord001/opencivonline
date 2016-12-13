@@ -1,18 +1,24 @@
 # Open Civilization Online
 
+## requirements
+ * webserver with PHP
+ * PHP CLI
+ * REDIS
+
 ## build instructions
 
-### generate a map
+### set up the game
+ **Note:** this will reset an exisiting game without prompting or warning run with caution.
 ```
-node map-gen.js > test-world.map
-```
-
-### start server
-```
-node play.js
+php initialize-game.php
 ```
 
-### connect to the site to view the map
+### start build monitor
 ```
- chromium-browser http://localhost:8081
+php builder.php
+```
+
+### connect to the site to signup and view the map
+```
+ chromium-browser http://localhost:80
 ```
