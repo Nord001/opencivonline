@@ -15,11 +15,17 @@
 	$build_queue_is_empty = $base_data["build-queue"] == "";
 	$already_have_building = in_array ($resource, $base_data["buildings"]);
 
+	$build_message = "";
+
 	if ($build_queue_is_empty) {
 		if (!$already_have_building) {
 			$base_data["build-queue"] = "$resource|".time();
 			$redis->set("world:bases:$user", json_encode ($base_data));
+
+			$build_message = "Item added to build queue";
 		}
+	} else {
+		$build_message = "All your build queues are full";
 	}
 ?>
 <html>
@@ -28,7 +34,7 @@
 		<meta http-equiv="refresh" content="1; url=./base.php?user=<?php echo $user; ?>&amp;base=<?php echo $user; ?>">
 	</head>
 	<body>
-		<p>Item added to build queue.</p>
+		<p><?php echo $build_message; ?></p>
 		<p>Please wait to be redirected back to your base . . .</p>
 	</body>
 </html>

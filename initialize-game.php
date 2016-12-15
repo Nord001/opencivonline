@@ -75,4 +75,11 @@
 	echo "Saving buildings: ";
 	$redis->set ("buildings:library", "{\"time\":5}");
 	$redis->set ("buildings:barracks", "{\"time\":10}");
+
+	// generate technology
+	$redis->set ("technology:agriculture", "{\"time\":10}");
+
+	// generate units
+	$redis->set ("unit:worker", "{\"time\":15,\"moves\":3,\"attack\": 0,\"defence\": 0,\"actions\":[\"farm\"]}");
+
 	echo "Done\n";

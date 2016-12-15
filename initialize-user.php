@@ -20,7 +20,7 @@
 	<body>
 <?php
 	if (json_decode($redis->get("world:bases:$user")) == NULL) {
-		$redis->set("world:bases:$user", "{\"buildings\":[],\"build-queue\":\"\"}");
+		$redis->set("world:bases:$user", "{\"buildings\":[],\"build-queue\":\"\",\"research\":{\"limit\":1,\"queue\":[]},\"technology\":[]}");
 
 		do {
 			$proposed_x = rand(0, $max_x - 1);

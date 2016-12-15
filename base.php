@@ -90,18 +90,31 @@
 		</ul>
 <?php
 	}
+
+	// are there buildings left to build?
+	$canBuild = false;
+	for ($i = 0; $i < sizeof ($raw_buildings_available); $i++) {
+		$building_name = explode (':', $raw_buildings_available[$i])[1];
+		if (!in_array ($building_name, $json_base_data->buildings) && $building_name != $building) {
+			$canBuild = true;
+			break;
+		}
+	}
+
+		if ($canBuild) {
 ?>
 		<h3>Build</h3>
 		<ul>
 <?php
 		for ($i = 0; $i < sizeof ($raw_buildings_available); $i++) {
 			$building_name = explode (':', $raw_buildings_available[$i])[1];
-			if (!in_array ($building_name, $json_base_data->buildings)) {
+			if (!in_array ($building_name, $json_base_data->buildings) && $building_name != $building) {
 				echo "<li><a href='build.php?user=$user&amp;base=$base&amp;resource=$building_name&amp;x=$x&amp;y=$y'>$building_name</a></li>";
 			}
 		}
 ?>
 		</ul><?php
+		}
 	} ?>
 		</pre>
 		<script>
@@ -114,11 +127,16 @@
 				var start_build_time =parseInt (build_queue_timer_dom.getAttribute ("data-start-time"));
 				var build_length = parseInt (build_queue_timer_dom.getAttribute ("data-build-length"));
 				var current_time = parseInt (rtrim ((new Date).getTime().toString(), 3));
-				var time_left = start_build_time - current_time + build_length;
+				var time_left_seconds = start_build_time - current_time + build_length;
+
+				var minutes = Math.floor (time_left_seconds / 60);
+				var seconds = time_left_seconds % 60;
+
+				var time_left = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds
 
 				document.getElementsByClassName ("building")[0].innerHTML = time_left;
 
-				if (time_left <= 0) {
+				if (time_left_seconds <= 0) {
 					location.reload();
 				} else {
 					setTimeout( function() {
