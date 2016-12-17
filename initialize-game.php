@@ -80,6 +80,6 @@
 	$redis->set ("technology:agriculture", "{\"time\":10}");
 
 	// generate units
-	$redis->set ("unit:worker", "{\"time\":15,\"moves\":3,\"attack\": 0,\"defence\": 0,\"actions\":[\"farm\"]}");
+	$redis->set ("unit:worker", "{\"time\":15,\"moves\":3,\"attack\": 0,\"defence\": 0,\"actions\":[\"farm\"],\"required_technology\":[\"agriculture\"]}");
 
 	echo "Done\n";

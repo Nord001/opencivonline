@@ -18,7 +18,7 @@
 				$build_diff = $now - $start_time;
 				$build_time = json_decode ($redis->get("buildings:$resource"))->time;
 
-				if ($build_diff > $build_time) {
+				if ($build_diff >= $build_time) {
 					echo "[$now] $resource finished for $base_name\n";
 					array_push ($base_data["buildings"], $resource);
 
