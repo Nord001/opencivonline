@@ -15,7 +15,7 @@
 						$build_time = json_decode($redis->get("technology:$technology"), true)["time"];
 						$start_building_time = get_build_start_time ($technology, $base_data);
 ?>
-<li><?php echo $technology; ?> (<span class="building" data-build-length="<?php echo $build_time; ?>" data-start-time="<?php echo $start_building_time; ?>"></span>)</li>
+<li><?php echo $technology; ?> (<span class="timer" data-duration-in-seconds="<?php echo $build_time; ?>" data-start-time="<?php echo $start_building_time; ?>"></span>)</li>
 <?php
 					} else {
 						echo "<li><a href='buildings/library/research.php?user=$user&amp;research=$technology'>$technology$mark</a></li>";	
@@ -54,32 +54,4 @@
 		}
 	}
 ?>
-<script>
-			// taken from http://stackoverflow.com/questions/8141718/javascript-need-to-do-a-right-trim on 20161211 @ 11:55est
-			function rtrim(str, length) {
-				return str.substr(0, str.length - length);
-			}
-			function updateBuildTimer () {
-				var build_queue_timer_dom = document.getElementsByClassName ("building")[0];
-				var start_build_time =parseInt (build_queue_timer_dom.getAttribute ("data-start-time"));
-				var build_length = parseInt (build_queue_timer_dom.getAttribute ("data-build-length"));
-				var current_time = parseInt (rtrim ((new Date).getTime().toString(), 3));
-				var time_left_seconds = start_build_time - current_time + build_length;
-
-				var minutes = Math.floor (time_left_seconds / 60);
-				var seconds = time_left_seconds % 60;
-
-				var time_left = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds
-
-				document.getElementsByClassName ("building")[0].innerHTML = time_left;
-
-				if (time_left_seconds <= 0) {
-					location.reload();
-				} else {
-					setTimeout( function() {
-						updateBuildTimer();
-					}, 1000);
-				}
-			}
-			updateBuildTimer();
-</script>
+<script src="/js/timer.js"></script>
